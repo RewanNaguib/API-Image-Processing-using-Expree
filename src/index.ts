@@ -1,23 +1,39 @@
-import arrays from './utils/arrays';
-import numbers from './utils/numbers';
-import strings from './utils/strings';
+import express from 'express';
+import {promises as fsPromises} from 'fs';
+import csv from 'csvtojson';
 
-const numArr = [3, 4, 5, 6];
-const wordArr = ['cat', 'dog', 'rabbit', 'bird'];
-const arrSum = arrays.addArr(numArr);
-const mixArr = arrays.concatArr(numArr, wordArr);
-const myNum = ('15' as unknown) as number % 2;
-const five = parseInt('5');
+const app = express();
+const port = 3000;
 
-const newArr = (num: number, arr:(string|number)[]): (string|number)[]=> {
-    return [num, ...arr];
-}
+const inputFile = './users.csv';
+const outputFile = 'users.json';
 
-console.log(newArr(3, wordArr));
-console.log(arrays.cut3(mixArr));
-console.log(numbers.sum(arrSum, myNum));
-console.log(strings.capitalize('the quick brown fox'));
-console.log(numbers.multiply(five, 8));
-console.log(arrays.lgNum(mixArr));
+app.get('/convert', (req, res)=>{
+    res.send('Converting in Processing...');
+    csv()
+    .fromFile(inputFile)
+    .then((data)=>{
+      let newData = data.map( 
+        (item: {
+          first_name: String;
+          last_name: String; 
+          phone: string
+        }) => {
+          let first = item.first_name;
+          let last = item.last_name;
+          let phone = item.phone;
+          if(item.phone === ""){
+            phone = "missing data";
+          }
+          return {first, last, phone};
+        });
 
-export default newArr;
+        fsPromises.writeFile(outputFile, JSON.stringify(newData));
+    });
+});
+
+
+// start the Express server
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
+});

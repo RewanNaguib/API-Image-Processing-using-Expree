@@ -18,7 +18,7 @@ routes.get('/image', async(req, res): Promise<void>=>{
     } 
     
     //check that the width the user enters is only type number
-    if(isNaN(width)) 
+    if(isNaN(width) && req.query.width) 
     {
         res.status(400).send('Width should be type number only');
     }
@@ -30,7 +30,7 @@ routes.get('/image', async(req, res): Promise<void>=>{
     }
 
     //check that the height the user enters is only type number
-    if(isNaN(height)) 
+    if(isNaN(height) && req.query.height) 
     {
         res.status(400).send('Height should be type number only');
     }

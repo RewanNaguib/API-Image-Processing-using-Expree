@@ -30,9 +30,9 @@ packages for testing/developping backend apps, eslint and prettier configured
    height "optional".
    
    It's mendatory to send the filename, you can't send width and height in this case the original image will be returned.
-   You can send filename + width only .
-   You can send filename & height only .
-   You can send filename & width & height . 
+   * You can send filename + width only .
+   * You can send filename & height only .
+   * You can send filename & width & height . 
 
    
 

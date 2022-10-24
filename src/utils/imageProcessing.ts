@@ -1,6 +1,5 @@
 import sharp from 'sharp';
 import path from 'path';
-import {promises as fsPromises} from 'fs';
 import fs from 'fs';
 
 // create a variable that get the original image name from it's path (images/originalImages)
@@ -13,15 +12,37 @@ const ImageProcessing = async(width:number, height:number, filename:string) : Pr
     const createdImage:string  = path.join(__dirname, '../', '../', 'images/', 'createdImages/', filename) + '_' + `${width}` + '_' + `${height}`  + '.jpg';
     const createdImagesFolder:string = path.join(__dirname, '../', '../', 'images/', 'createdImages/');
 
-    if(!fs.existsSync(createdImagesFolder)){
-        await fsPromises.mkdir(createdImagesFolder);
+    if(!fs.existsSync(createdImagesFolder))
+    {
+        await fs.mkdirSync(createdImagesFolder);
     }
 
-    try{
-        await sharp(originalImage).resize(width, height).toFile(createdImage);
-        return createdImage;
+    try {
+            if(!width && !height)
+            {
+                return originalImage;
+            }
+        
+            else if(width && !height) 
+            {
+                await sharp(originalImage).resize(width).toFile(createdImage);
+                return createdImage;
+            }
+        
+            else if(!width && height)
+            {
+                await sharp(originalImage).resize(height).toFile(createdImage);
+                return createdImage;
+            }
+        
+            else 
+            {
+                await sharp(originalImage).resize(width, height).toFile(createdImage);
+                return createdImage;
+        
+            }
     }
-    catch(error){
+    catch(error) {
         return error;
     }
 };

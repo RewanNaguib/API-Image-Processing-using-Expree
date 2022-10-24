@@ -1,39 +1,11 @@
 import express from 'express';
-import {promises as fsPromises} from 'fs';
-import csv from 'csvtojson';
+import routes from './routes/index';
 
-const app = express();
+const app  = express();
 const port = 3000;
 
-const inputFile = './users.csv';
-const outputFile = 'users.json';
+app.use('/api', routes);
 
-app.get('/convert', (req, res)=>{
-    res.send('Converting in Processing...');
-    csv()
-    .fromFile(inputFile)
-    .then((data)=>{
-      let newData = data.map( 
-        (item: {
-          first_name: String;
-          last_name: String; 
-          phone: string
-        }) => {
-          let first = item.first_name;
-          let last = item.last_name;
-          let phone = item.phone;
-          if(item.phone === ""){
-            phone = "missing data";
-          }
-          return {first, last, phone};
-        });
-
-        fsPromises.writeFile(outputFile, JSON.stringify(newData));
-    });
-});
-
-
-// start the Express server
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
-});
+app.listen(port, ()=>{
+    console.log(`server is listening on port: ${port}`);
+})

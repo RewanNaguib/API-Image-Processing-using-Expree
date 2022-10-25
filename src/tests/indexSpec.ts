@@ -1,5 +1,7 @@
 import supertest from 'supertest';
 import app from '../index';
+import fs from 'fs';
+import path from 'path';
 
 const request = supertest(app);
 describe('Test URL Response Status Code', () => {
@@ -92,4 +94,21 @@ describe('Test Error Message Validations', () => {
     );
     done();
   });
+});
+
+describe('Test Image Processing Used By Sharp', ()=>{
+    const createdImagesFolder: string = path.join(
+        __dirname,
+        '../',
+        '../',
+        'images/',
+        'createdImages/'
+      );
+    it('Gets The new name of the created image in createdImages directory', async(done)=>{
+        const response = await request.get(
+            '/api/image?filename=fjord&width=105&height=105'
+        );
+        expect(fs.existsSync(createdImagesFolder + '/fjord_105_105.jpg')).toBe(true);
+        done();
+    });
 });

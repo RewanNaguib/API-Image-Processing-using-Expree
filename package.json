@@ -10,7 +10,7 @@
     "start": "nodemon src/index.ts",
     "startjs": "nodemon dist/.",
     "jasmine": "jasmine",
-    "prettier": "prettier --config .prettierrc {,!(node_modules)/**/}*.ts --write"
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "author": "Rewan Naguib",
   "license": "ISC",

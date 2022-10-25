@@ -9,7 +9,7 @@ const ImageProcessing = async(width:number, height:number, filename:string) : Pr
 
     if(!fs.existsSync(createdImagesFolder))
     {
-         fs.mkdirSync(createdImagesFolder);
+        fs.mkdirSync(createdImagesFolder);
     }
 
     try {

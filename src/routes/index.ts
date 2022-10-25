@@ -11,7 +11,7 @@ routes.get('/image', async(req, res): Promise<void>=>{
     const height = parseInt(req.query.height as string);
     const filename = (req.query.filename as unknown) as string;
     
-    //check that the width the user enters > 0
+    //check that the width the user enters must be > 0
     if(width <= 0)
     {
         res.status(400).send('Width should be greather than 0');
@@ -23,7 +23,7 @@ routes.get('/image', async(req, res): Promise<void>=>{
         res.status(400).send('Width should be type number only');
     }
 
-    //check that the height the user enters > 0
+    //check that the height the user enters must be > 0
     if(height <= 0)
     {
         res.status(400).send('Height should be greater than 0');
@@ -35,7 +35,10 @@ routes.get('/image', async(req, res): Promise<void>=>{
         res.status(400).send('Height should be type number only');
     }
 
-
+    /**
+     * @todo: if filename sent alone with a name that doesn't exit
+     *    if filename sent with width and height and i entered a name that doesn't exit i got the error
+     */
     if(filename) 
     {
         const createdImage:string  = path.join(__dirname, '../', '../', 'images/', 'createdImages/', filename) + '_' + `${width}` + '_' + `${height}`  + '.jpg';
@@ -44,6 +47,7 @@ routes.get('/image', async(req, res): Promise<void>=>{
         {
             res.sendFile(createdImage);
         }
+
         else 
         {
             const finalImage = await ImageProcessing(width, height, filename);

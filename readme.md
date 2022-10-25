@@ -22,7 +22,7 @@ packages for testing/developping backend apps, eslint and prettier configured
 ### To Run The Project
  1) Add the Images You want in the project in Directory `images/originalImages` .
  
- 3) Visit http://localhost:6000/api/image?filename=&width=&height=
+ 3) Visit http://localhost:4040/api/image?filename=&width=&height=
    (filename => image name)
    
    filename "required".

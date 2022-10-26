@@ -3,6 +3,7 @@ import app from '../index';
 import fs from 'fs';
 import path from 'path';
 import ImageProcessing from '../utils/imageProcessing';
+import sharp from 'sharp';
 
 const request = supertest(app);
 describe('Test URL Response Status Code', () => {
@@ -93,10 +94,23 @@ describe('Test Image Processing Used By Sharp', ()=>{
         'images/',
         'createdImages/'
       );
+
+      const originalImagesFolder: string = path.join(
+        __dirname,
+         '../',
+         '../', 
+         'images/', 
+         'originalImages/'
+        );
+
     it('Gets The new name of the created image in createdImages directory', async()=>{
         const response = await request.get(
             '/api/image?filename=fjord&width=105&height=105'
         );
         expect(fs.existsSync(createdImagesFolder + '/fjord_105_105.jpg')).toBe(true);
     });
+
+    it('Check that image processing using sharp is resizing fine and save the new image in createdImageDirectory', async()=>{
+      expect(sharp(originalImagesFolder + 'fjord.jpg').resize(100, 100).toFile(createdImagesFolder + 'fjord_100_100.jpg')).toBeTruthy();
+  });
 });

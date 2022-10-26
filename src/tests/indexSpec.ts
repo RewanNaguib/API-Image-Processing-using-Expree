@@ -112,5 +112,11 @@ describe('Test Image Processing Used By Sharp', ()=>{
 
     it('Check that image processing using sharp is resizing fine and save the new image in createdImageDirectory', async()=>{
       expect(sharp(originalImagesFolder + 'fjord.jpg').resize(100, 100).toFile(createdImagesFolder + 'fjord_100_100.jpg')).toBeTruthy();
-  });
+    });
+
+    it("Check for image processing that it will not throw an error if u send to it the right parameters", () => {    
+      expect(() => {
+              ImageProcessing(100, 100, 'fjord')
+             }).not.toThrowError("error");
+    });
 });
